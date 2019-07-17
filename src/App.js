@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import TopNav from './components/TopNav';
 import Home from './components/Home';
 import Footer from './components/Footer';
 import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 class App extends Component {
     constructor(props) {
@@ -17,10 +17,8 @@ class App extends Component {
     componentDidMount() {
         Axios.get('http://localhost:3001/vehicles')
             .then(res => {
-                console.log(res.data);
-                this.setState({
-                    vehicleData: res.data
-                });
+                // console.log(res.data);
+                this.setState({ vehicleData: res.data });
             })
             .catch(err => console.log(err));
     }
@@ -30,17 +28,27 @@ class App extends Component {
             return (
                 <Router>
                     <div className="App">
-                        <TopNav />
+                        <TopNav vehicleData={this.state.vehicleData} />
                         <div className="contentArea">
-                            <Route exact path="/" component={Home} />
+                            <Route
+                                exact
+                                path="/"
+                                render={props => (
+                                    <Home
+                                        {...props}
+                                        vehicleData={this.state.vehicleData}
+                                    />
+                                )}
+                            />
                         </div>
                         <Footer />
                     </div>
                 </Router>
             );
         } else {
-            return <h4>Loading data...</h4>;
+            return <h4> Loading Data</h4>;
         }
     }
 }
+
 export default App;

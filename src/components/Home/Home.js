@@ -1,21 +1,19 @@
-import React, { Component } from 'react';
-import SiteCarousel from '../SiteCarousel';
-import VehicleBrowser from '../VehicleBrowser';
+import React from 'react';
 import './Home.css';
-
-class Home extends Component {
-    constructor(props) {
-        super(props);
-    }
-
+import SiteCarousel from '../SiteCarousel';
+// import VehicleBrowser from '../VehicleBrowser';
+class Home extends React.Component {
     render() {
-        return (
-            <div>
-                <p>test</p>
-                <SiteCarousel />
-                <VehicleBrowser />
-            </div>
-        );
+        if (this.props.vehicleData) {
+            return (
+                <div>
+                    <SiteCarousel vehicleData={this.props.vehicleData} />
+                    {/* <VehicleBrowser vehicleData={this.props.vehicleData}  />  */}
+                </div>
+            );
+        } else {
+            return null;
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './SiteCarousel.css';
-
+import './BuildAndPriceImageRotator.css';
+import Numeral from 'numeral';
 import {
     Carousel,
     CarouselItem,
@@ -9,19 +9,36 @@ import {
     CarouselCaption
 } from 'reactstrap';
 
-class SiteCarousel extends Component {
+class BuildAndPriceImageRotator extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            activeIndex: 0
-        };
-
+        this.state = { activeIndex: 0 };
+        this.buildItems = this.buildItems.bind(this);
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
         this.goToIndex = this.goToIndex.bind(this);
         this.onExiting = this.onExiting.bind(this);
         this.onExited = this.onExited.bind(this);
+    }
+
+    buildItems() {
+        const selectedVehicleData = this.props.vehicleData.filter(
+            vehicle => vehicle.detailKey === this.props.selectedVehicle
+        )[0];
+        let items = [];
+        for (let i = 0; i < 21; i++) {
+            //let's so this one step at a time so nobody (including me) gets hurt
+            let url = '/images/thumbnails/' + this.props.selectedVehicle; //e.g. /images/thumbnails/jumper
+            url += '/' + this.props.selectedVehicle; //e.g. /images/thumbnails/jumper/jumper
+            url +=
+                '-' +
+                selectedVehicleData.colors[Number(this.props.colorIndex)][2]; //e.g. /images/thumbnails/jumper/jumper-white
+            url += '-thumbnails' + Numeral(i).format('00') + '.jpg'; //e.g. /images/thumbnails/jumper/jumper-white-thumbnails01.png"
+            //console.log(url);
+            items.push({ src: url, altText: '', caption: '' });
+        }
+
+        return items;
     }
 
     onExiting() {
@@ -35,18 +52,17 @@ class SiteCarousel extends Component {
     next() {
         if (this.animating) return;
         const nextIndex =
-            this.state.activeIndex === this.props.vehicleData.length - 1
+            this.state.activeIndex === this.buildItems().length - 1
                 ? 0
                 : this.state.activeIndex + 1;
-        console.log(nextIndex);
         this.setState({ activeIndex: nextIndex });
     }
 
     previous() {
         if (this.animating) return;
         const nextIndex =
-            this.state.activeIndex === this.props.vehicleData.length - 1
-                ? 0
+            this.state.activeIndex === 0
+                ? this.buildItems().length - 1
                 : this.state.activeIndex - 1;
         this.setState({ activeIndex: nextIndex });
     }
@@ -58,33 +74,36 @@ class SiteCarousel extends Component {
 
     render() {
         const { activeIndex } = this.state;
-        const slides = this.props.vehicleData.map((item, i) => {
+        const items = this.buildItems();
+        const slides = items.map(item => {
             return (
                 <CarouselItem
                     onExiting={this.onExiting}
                     onExited={this.onExited}
-                    key={item.carouselImage}
+                    key={item.src}
                 >
-                    <a href={'/detail/' + item.detailKey}>
-                        <img
-                            className={'carouselImage'}
-                            src={item.carouselImage}
-                            alt={item.altText}
-                        />
-                    </a>
-                    <CarouselCaption captionText="" captionHeader="" />
+                    <img
+                        className={'buildAndPriceImage'}
+                        src={item.src}
+                        alt={item.altText}
+                    />
+                    <CarouselCaption
+                        captionText={item.caption}
+                        captionHeader={item.caption}
+                    />
                 </CarouselItem>
             );
         });
 
         return (
             <Carousel
+                slide={false}
                 activeIndex={activeIndex}
                 next={this.next}
                 previous={this.previous}
             >
                 <CarouselIndicators
-                    items={this.props.vehicleData}
+                    items={items}
                     activeIndex={activeIndex}
                     onClickHandler={this.goToIndex}
                 />
@@ -104,4 +123,4 @@ class SiteCarousel extends Component {
     }
 }
 
-export default SiteCarousel;
+export default BuildAndPriceImageRotator;

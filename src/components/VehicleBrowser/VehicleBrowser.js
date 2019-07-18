@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Numeral from 'numeral';
 import {
     Container,
@@ -13,11 +13,7 @@ import {
     NavLink
 } from 'reactstrap';
 
-class VehicleBrowser extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
+class VehicleBrowser extends Component {
     render() {
         const VehicleSelections = this.props.vehicleData.map(item => {
             console.log(item.thumbnail);

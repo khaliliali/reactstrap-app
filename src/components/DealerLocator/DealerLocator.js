@@ -95,7 +95,7 @@ class DealerLocator extends Component {
                                             <Button
                                                 onClick={this.onClearClicked}
                                             >
-                                                X
+                                                x
                                             </Button>
                                         </InputGroupAddon>
                                     </InputGroup>
@@ -116,6 +116,7 @@ class DealerLocator extends Component {
                                 <ListGroup>
                                     {Object.keys(this.state.stateCounter)
                                         .sort()
+                                        // eslint-disable-next-line
                                         .map(function(key, i) {
                                             if (
                                                 typeof this.state.stateCounter[
@@ -201,7 +202,7 @@ class DealerLocator extends Component {
                 );
             }
         } else {
-            return null;
+            return <h3>Sorry, No Dealer Location Founded.</h3>;
         }
     }
 }

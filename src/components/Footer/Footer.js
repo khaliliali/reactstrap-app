@@ -5,7 +5,9 @@ class Footer extends Component {
     render() {
         return (
             <footer>
-                <a href="/">All rights Reserves.</a>
+                <a href="/schedule-test-flight">
+                    Schedule a Test Flight! No pilot's license required!
+                </a>
             </footer>
         );
     }

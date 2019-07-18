@@ -12,8 +12,8 @@ import {
     DropdownMenu,
     DropdownItem
 } from 'reactstrap';
+
 import { Link } from 'react-router-dom';
-import './TopNav.css';
 
 class TopNav extends Component {
     constructor(props) {
@@ -23,16 +23,22 @@ class TopNav extends Component {
             isOpen: false
         };
     }
+
     toggle() {
         this.setState({
             isOpen: !this.state.isOpen
         });
     }
+
     render() {
-        const vehicleSelections = this.props.vehicleData.map(item => {
+        const VehicleSelections = this.props.vehicleData.map(item => {
             return (
                 <DropdownItem key={item.detailKey}>
-                    <Link to={{ pathname: '/detail/' + item.detailKey }}>
+                    <Link
+                        to={{
+                            pathname: '/detail/' + item.detailKey
+                        }}
+                    >
                         {item.model}
                     </Link>
                 </DropdownItem>
@@ -40,42 +46,41 @@ class TopNav extends Component {
         }, this);
 
         return (
-            <div>
-                <Navbar color="light" light expand="md">
-                    <NavbarBrand href="/">reactstrap-app</NavbarBrand>
-                    <NavbarToggler onClick={this.toggle} />
-                    <Collapse isOpen={this.state.isOpen} navbar>
-                        <Nav className="ml-auto" navbar>
-                            <NavItem>
-                                <NavLink href="/">
-                                    <i className="fas fa-home" /> Home
-                                </NavLink>
-                            </NavItem>
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    <i className="fas fa-space-shuttle" />{' '}
-                                    Flying Cars
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    {vehicleSelections}
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
-                            <NavItem>
-                                <NavLink href="/find-a-dealer">
-                                    <i className="fas fa-map-marker-alt" /> Find
-                                    A Dealer
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/build-and-price">
-                                    <i className="fas fa-cog" /> Build & Price
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
-            </div>
+            <Navbar color="light" light expand="md">
+                <NavbarBrand className="Branding" href="/">
+                    flying car dealership
+                </NavbarBrand>
+                <NavbarToggler onClick={this.toggle} />
+                <Collapse isOpen={this.state.isOpen} navbar>
+                    <Nav className="ml-auto" navbar>
+                        <NavItem>
+                            <NavLink href="/">
+                                <i className="fas fa-home" /> Home
+                            </NavLink>
+                        </NavItem>
+                        <UncontrolledDropdown nav inNavbar>
+                            <DropdownToggle nav caret>
+                                <i className="fas fa-space-shuttle" /> Flying
+                                Cars
+                            </DropdownToggle>
+                            <DropdownMenu>{VehicleSelections}</DropdownMenu>
+                        </UncontrolledDropdown>
+                        <NavItem>
+                            <NavLink href="/find-a-dealer">
+                                <i className="fas fa-map-marker-alt" /> Find a
+                                Dealer
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/build-and-price">
+                                <i className="fas fa-cogs" /> Build & Price
+                            </NavLink>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
+            </Navbar>
         );
     }
 }
+
 export default TopNav;

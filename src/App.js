@@ -23,7 +23,7 @@ class App extends Component {
             const data = JSON.parse(sessionStorage.getItem('vehicleData'));
             this.setState({ vehicleData: data });
         } else {
-            Axios.get('http://localhost:3001/vehicles/')
+            Axios.get('http://localhost:3003/vehicles/')
                 .then(res => {
                     //store it to session storage
                     sessionStorage.setItem(

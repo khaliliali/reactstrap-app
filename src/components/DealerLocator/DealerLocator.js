@@ -29,7 +29,7 @@ class DealerLocator extends Component {
     }
 
     componentDidMount() {
-        Axios.get('http://localhost:3001/dealerships/')
+        Axios.get('http://localhost:3003/dealerships/')
             .then(res => {
                 //store it to session storage
 
